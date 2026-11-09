@@ -1,1 +1,25 @@
-
+from fastapi.testclient import TestClient
+ 
+from main import app
+ 
+client = TestClient(app)
+ 
+ 
+def test_raiz():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json() == {"mensagem": "API no ar!"}
+ 
+ 
+def test_somar():
+    response = client.get("/somar/10/20")
+    assert response.status_code == 200
+    assert response.json() == {"resultado": 30}
+ 
+ 
+def test_multiplicar():
+    response = client.get("/multiplicar/2/2")
+    assert response.status_code == 200
+    # Na Parte 3 o teste falhava de propósito com "== 5". Versão corrigida:
+    assert response.json() == {"resultado": 4}
+ 
